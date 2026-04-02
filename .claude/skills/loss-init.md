@@ -116,6 +116,28 @@ Add to the project's CLAUDE.md or equivalent:
 > **Every session starts with `<project> loss` and ends with `<project> loss`.
 > If loss goes up without a corresponding mission improvement, the change is wrong.**
 
+### Step 7: Record Forge Provenance
+
+Append this forge to the project's `.forge/installed.yaml`:
+
+1. Create `.forge/` directory if it doesn't exist
+2. Read existing `.forge/installed.yaml` or start fresh with `format_version: 1`
+3. Add or update the `loss-forge` entry:
+
+```yaml
+loss-forge:
+  installed: <today's date>
+  skill_used: /loss-init
+  artifacts:
+    - <path to loss module>
+    - LOSS-BASELINE.md
+  notes: "Baseline: Loss <X.XX> | Mission <X.XX>"
+```
+
+4. Write the file
+
+This is convention, not required. If the file can't be written (permissions, gitignore), skip silently and continue.
+
 ## Rules
 
 - **Missions first, losses second.** Missions answer "did we accomplish the goal?" Losses answer "is anything broken?" Both matter, but a project with high mission scores and some losses is better than zero losses and zero mission completion.
