@@ -1,0 +1,19 @@
+# Loss Baseline — {{DATE}}
+
+| Composite | Value |
+|-----------|-------|
+| Loss | {{LOSS_COMPOSITE}} (lower is better) |
+| Mission | {{MISSION_COMPOSITE}} (higher is better, max 1.0) |
+
+## Missions
+
+{{MISSION_TABLE}}
+
+## Losses
+
+{{LOSS_TABLE}}
+
+---
+
+Every session: run `{{CLI_COMMAND}} loss` before and after changes.
+If loss goes up without a corresponding mission improvement, the change is wrong.

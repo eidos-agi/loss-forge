@@ -1,0 +1,69 @@
+"""
+Loss functions for {{PROJECT_NAME}}.
+
+Each loss function returns a float >= 0. Lower is better. Zero is perfect.
+Each mission function returns a score 0.0-1.0. Higher is better.
+
+Usage:
+    from {{MODULE_PATH}}.loss import compute_all
+    results = compute_all(session)
+    print(results["loss_composite"])     # single number, lower is better
+    print(results["mission_composite"])  # single number, higher is better (max 1.0)
+"""
+
+from datetime import date
+
+
+# ── Weights ──────────────────────────────────────────
+# Higher weight = more important to the composite score.
+
+LOSS_WEIGHTS = {
+    # "L1_name": weight,
+    {{LOSS_WEIGHTS}}
+}
+
+MISSION_WEIGHTS = {
+    # "M1_name": weight,
+    {{MISSION_WEIGHTS}}
+}
+
+
+# ── Loss Functions (lower is better) ────────────────
+
+{{LOSS_FUNCTIONS}}
+
+
+# ── Mission Functions (0.0 to 1.0, higher is better) ─
+
+{{MISSION_FUNCTIONS}}
+
+
+# ── Composite ────────────────────────────────────────
+
+def compute_all(session) -> dict:
+    """Compute all loss functions and mission scores."""
+    losses = {}
+    {{LOSS_CALLS}}
+
+    missions = {}
+    {{MISSION_CALLS}}
+
+    # Loss composite (weighted average, lower is better)
+    l_sum = sum(LOSS_WEIGHTS[k] * losses[k]["value"] for k in LOSS_WEIGHTS)
+    l_total = sum(LOSS_WEIGHTS.values())
+    loss_composite = l_sum / l_total if l_total > 0 else 0
+
+    # Mission composite (weighted average, higher is better)
+    m_sum = sum(MISSION_WEIGHTS[k] * missions[k]["score"] for k in MISSION_WEIGHTS)
+    m_total = sum(MISSION_WEIGHTS.values())
+    mission_composite = m_sum / m_total if m_total > 0 else 0
+
+    return {
+        "loss_composite": round(loss_composite, 2),
+        "mission_composite": round(mission_composite, 2),
+        "losses": losses,
+        "missions": missions,
+        "loss_weights": LOSS_WEIGHTS,
+        "mission_weights": MISSION_WEIGHTS,
+        "snapshot_date": str(date.today()),
+    }
